@@ -1,0 +1,29 @@
+{
+  "name": "angular_web_app",
+  "version": "1.0.0",
+  "description": "这是一个angular的web应用",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.18.8",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-imagemin": "^3.1.1",
+    "gulp-less": "^3.3.0",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-uglify": "^2.1.0",
+    "open": "0.0.5"
+  },
+  "dependencies": {
+    "livereload": "^0.6.2"
+  }
+}

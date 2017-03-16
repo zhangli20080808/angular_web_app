@@ -1,0 +1,15 @@
+<ul class="position-list bg-w">
+  <!--  以函数的形式传入 传入一个对象 对象的属性就是参数的名称  -->
+  <li ui-sref="position({id:item.id})" class="item" ng-repeat='item in data'>
+    <img class="logo f-l" ng-src='{{item.imageUrl}}' alt="">
+    <h3 class="title">{{item.job}}</h3>
+    <!-- <p class="text" ng-bind="item.companyName+'['+item.cityName+']'+' '+item.industryName +' '+item.scaleName"> </p> -->
+
+    <p class="text">{{item.companyName}} {{item.cityName}}</p>
+    <p class="text">{{item.industryName}}</p>
+    <p class="text">{{item.data}}</p>
+    <div class="clear">
+
+    </div>
+  </li>
+</ul>

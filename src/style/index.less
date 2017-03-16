@@ -1,0 +1,70 @@
+@import "template/head.less";
+@import "template/footer.less";
+@import "template/positionList.less";
+@import "template/positionInfo.less";
+@import "template/positionClass.less";
+@import "template/company.less";
+@import "position.less";
+
+
+// 公共
+@import "property.less";
+
+
+
+.fs(@px){
+  font-size: unit(@px / 37.5 ,rem);
+}
+
+.w(@px){
+  width: unit(@px / 37.5 ,rem);
+}
+
+.h(@px){
+  height: unit(@px / 37.5 ,rem);
+}
+.lh(@px){
+  line-height: unit(@px / 37.5 ,rem);
+}
+// 外边距
+.mt(@px) {
+  margin-top: unit(@px / 37.5, rem);
+}
+.ml(@px) {
+  margin-left: unit(@px / 37.5, rem);
+}
+.mr(@px) {
+  margin-right: unit(@px / 37.5, rem);
+}
+.mb(@px) {
+  margin-bottom: unit(@px / 37.5, rem);
+}
+//内边距
+.pt(@px) {
+  padding-top: unit(@px / 37.5, rem);
+}
+.pl(@px) {
+  padding-left: unit(@px / 37.5, rem);
+}
+.pr(@px) {
+  padding-right: unit(@px / 37.5, rem);
+}
+.pb(@px) {
+  padding-bottom: unit(@px / 37.5, rem);
+}
+
+html,body{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+body{
+  background-color: @bodyBgColor;
+  .fs(16);
+}
+// 去掉按钮外面的宽度
+button{
+  outline-width: 0;
+  border-width: 0;
+  color: #fff;
+}

@@ -1,0 +1,47 @@
+// ul的时候麻烦的一点就是要清除默认样式
+.foot{
+  border-top: 1px solid @lineColor;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  bottom: 0;
+  height: 40px;
+  .lh(40);
+  left: 0;
+  right: 0;
+  // 内敛块级元素中间会有一个间隔
+  font-size: 0;
+  li{
+    width: 33.33%;
+    font-size: 20px;
+    color: @muteColor;
+    &.select{
+      background-color: @highlightBgColor;
+      color: @highlightColor;
+    }
+
+  }
+  .icon-document{
+    // base64de 只需要将下面的这个换成相应的符符串
+    background-image: url(../image/document.png);
+    // 这里我们不进行
+    width: 21px;
+    height: 21px;
+  }
+  .icon-document {
+  background-image: url(../image/document.png);
+  width: 25px;
+  height: 21px;
+}
+  .icon-search {
+    background-image: url(../image/search.png);
+    width: 24px;
+    height: 24px;
+  }
+  .icon-my {
+    background-image: url(../image/my.png);
+    width: 23px;
+    height: 25px;
+  }
+
+}
