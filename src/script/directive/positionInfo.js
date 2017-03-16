@@ -6,10 +6,12 @@ angular.module('app').directive('appPositionInfo',[function(){
     restrict: 'A',
     // 这里要注意我们的指令只能有一个根元素，不然会报错
     replace:  true,
-    templateUrl:  'view/template/positionInfo.html'
-    // scope:{
-    //
-    // }
+    templateUrl:  'view/template/positionInfo.html',
+    scope:{
+        isLogin: '=',
+        isActive: '=',
+        pos:'='
+    }
     // 点亮的动作
     // link:function($scope){
     //   $scope.imagePath = $scope.isActive?'image/star-active.png':'image/star.png';

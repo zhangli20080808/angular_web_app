@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var open = require('open');
+var livereload = require('gulp-livereload');
 
 var app = {
   srcPath: 'src/',

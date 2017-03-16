@@ -6,8 +6,6 @@ angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$sc
   $http.get('/data/positionList.json').success(function(resp){
       // console.log(resp);
       $scope.list = resp;
+      console.log(resp);
   })
-
-$scope.abc =1;
-
 }]);

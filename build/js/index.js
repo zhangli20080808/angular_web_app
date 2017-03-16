@@ -28,37 +28,6 @@ $urlRouterProvider.otherwise('main');
 
 'use strict';
 
-angular.module('app').controller('companyCtrl',['$scope',function($scope){
-
-  $scope.msg =1;
-
-}]);
-
-'use strict';
-
-angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$scope){
-
-
-  $http.get('/data/positionList.json').success(function(resp){
-      // console.log(resp);
-      $scope.list = resp;
-  })
-
-$scope.abc =1;
-
-}]);
-
-'use strict';
-
-angular.module('app').controller('positionCtrl',['$scope',function($scope){
-
-  $scope.msg =1;
-  $scope.isLogin =false;
-
-}]);
-
-'use strict';
-
 angular.module('app').directive('appCompany',[function(){
   return {
     // 我们使用属性的形式
@@ -130,8 +99,25 @@ angular.module('app').directive('appPositionClass',[function(){
     // 进行替换dom元素 如果我们希望将这里的父元素div替换掉  true
     replace:  true,
     // 模版位置
-    templateUrl: 'view/template/positionClass.html'
+    scope: {
+      com: '='
+    },
+    templateUrl: 'view/template/positionClass.html',
+    link: function($scope){
+      $scope.showPositionList = function(idx){
+        $scope.positionList = $scope.com.positionClass[idx].positionList;
+        // console.log($scope.PositionList);
+          $scope.isActive = idx;
+      }
+      $scope.$watch('com',function(newVal){
+        console.log(newVal);
+        if(newVal) {
+          $scope.showPositionList(0);
+        }
+      })
+    }
   }
+
 }]);
 
 'use strict';
@@ -142,10 +128,12 @@ angular.module('app').directive('appPositionInfo',[function(){
     restrict: 'A',
     // 这里要注意我们的指令只能有一个根元素，不然会报错
     replace:  true,
-    templateUrl:  'view/template/positionInfo.html'
-    // scope:{
-    //
-    // }
+    templateUrl:  'view/template/positionInfo.html',
+    scope:{
+        isLogin: '=',
+        isActive: '=',
+        pos:'='
+    }
     // 点亮的动作
     // link:function($scope){
     //   $scope.imagePath = $scope.isActive?'image/star-active.png':'image/star.png';
@@ -167,4 +155,66 @@ angular.module('app').directive('appPositionList',[function(){
       data: '='
     }
   }
+}]);
+
+'use strict';
+
+angular.module('app').controller('companyCtrl',['$http','$state','$scope',function($http,$state,$scope){
+
+  //这个地方一定要注意  注入顺序  真心坑
+  $http.get('data/company.json?id='+$state.params.id).success(function(resp){
+    $scope.company = resp;
+    // console.log(resp);
+  })
+
+  $scope.msg =1;
+}]);
+
+'use strict';
+
+angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$scope){
+
+
+  $http.get('/data/positionList.json').success(function(resp){
+      // console.log(resp);
+      $scope.list = resp;
+      console.log(resp);
+  })
+}]);
+
+'use strict';
+
+angular.module('app').controller('positionCtrl',['$scope','$http','$state','$q',function($scope,$http,$state,$q){
+
+  $scope.isLogin =false;
+  function getPosition(){
+
+    //我们声明一个延迟加载对象
+    var def = $q.defer();
+
+    $http.get('data/position.json?id='+$state.params.id).success(function(resp){
+      $scope.position = resp;
+      def.resolve(resp);
+    }).error(function(err){
+      def.reject(err);
+    });
+    return def.promise;
+  }
+
+  // 当返回一个promise函数的时候有一个then函数  then代表这个异步请求结束之后所执行的一个函数
+  // then 里面有两个函数 分别对应我们前面的  参数就是调用resolve的时候传过来的参数
+
+  function getCompany(id){
+    $http.get('data/position.json?id='+id).success(function(resp){
+      $scope.company = resp;
+    })
+  }
+
+  getPosition().then(function(obj){
+    // console.log(obj);
+    getCompany(obj.companyId);
+  })
+
+
+
 }]);
