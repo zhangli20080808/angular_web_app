@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app', ['ui.router']);
+angular.module('app', ['ui.router','ngCookies']);
 
 'use strict';
 
@@ -20,6 +20,10 @@ angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($
     url: '/company/:id',
     templateUrl: 'view/company.html',
     controller: 'companyCtrl'
+  }).state('search',{
+    url: '/search',
+    templateUrl: 'view/search.html',
+    controller: 'searchCtrl'
   });
   //重定向
 $urlRouterProvider.otherwise('main');
@@ -56,7 +60,13 @@ angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$sc
 
 'use strict';
 
-angular.module('app').controller('positionCtrl',['$scope','$http','$state','$q',function($scope,$http,$state,$q){
+angular.module('app').controller('positionCtrl',['$scope','$http','$state','$q','cache',function($scope,$http,$state,$q,cache){
+
+  // cache.put('to','day');
+  // cache.remove('to');
+
+  cache.put('to', 'you');
+
 
   $scope.isLogin =false;
   function getPosition(){
@@ -88,6 +98,14 @@ angular.module('app').controller('positionCtrl',['$scope','$http','$state','$q',
   })
 
 
+
+}]);
+
+'use strict';
+
+angular.module('app').controller('searchCtrl',['$scope',function($scope){
+
+  $scope.msg =1;
 
 }]);
 
@@ -228,3 +246,30 @@ angular.module('app').directive('appPositionList',[function(){
     }
   }
 }]);
+
+'use strict';
+// angular.module('app').service('cache',['$cookies',function($cookies){
+//   this的方式
+//   this.put = function(key,value){
+//     $cookies.put(key,value)
+//   }
+//   this.get = function(key){
+//     return $cookies.get(key)
+//   }
+//   this.remove = function(key){
+//     $cookies.remove(key);
+//   }
+// }])
+
+angular.module('app').factory('cache',['$cookies',function($cookies){
+  // 对象的方式
+  return {
+    put :function(key,value){
+      $cookies.put(key,value)
+    },
+    get: function(key){
+      return $cookies.get(key)
+    }
+  }
+
+}])

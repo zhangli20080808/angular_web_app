@@ -93,7 +93,14 @@ position.html    路由－－我们根据不同的职位去进行展示
     当我们进行玩dom操作之后
 
   服务总结   service factory 一个函数 在整个过程中只会生成一次 懒加载 只有我们引入他的时候，才会被创建
+  我们自定义一个服务  就是把我们的数据绑定到我们的cookies里面 bower install --save angular-cookies
 
+  src--> service cache.js   引入  注入   ngCookies  编写函数 测试 cache  服务的编写
+  服务工厂  
+  gulp-plumber 一旦发生错误，线程不会直接中断
+
+
+  开始搜索模块  search路由 页面 控制器 分析页面结构 
 
 
  <!--这个地方定位结束之后有一个点亮的动作 我们去指令里面做  link  这个地方我们这样处理

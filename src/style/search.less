@@ -1,0 +1,39 @@
+.search-bar{
+  background-color: @headBgColor;
+  position: fixed;
+  left: 0;
+  right: 0;
+  .h(40);
+  .lh(40);
+  z-index: 1000;
+  img{
+    transform: scale(0.6);
+    display: inline-block;
+    vertical-align: middle;
+  }
+  input{
+    border-color: @bodyBgColor;
+    border-radius: 80px;
+    border-style: none;
+    box-sizing: border-box;
+    outline-width: 0;
+    .pl(20);
+    .w(190);
+    .h(24)
+  }
+  button{
+    background-color: @headBgColor;
+    &:first-child{
+    color: @defaultColor;
+    }
+    &:last-child{
+      color: @muteColor;
+      background-image: url(../image/search.png);
+      background-repeat: no-repeat;
+      background-size: 15px 15px;
+      background-position: 0 4px;
+      padding-left: 18px;
+      margin-right: 19px;
+    }
+  }
+}
