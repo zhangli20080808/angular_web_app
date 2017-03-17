@@ -141,6 +141,15 @@
 .company-info p {
   margin-top: 0;
 }
+.bottom-btn {
+  position: fixed;
+  height: 1.06666667rem;
+  background-color: #12d5b5;
+  left: 0;
+  right: 0;
+  width: 100%;
+  bottom: 0;
+}
 .position-desc {
   margin-top: 10px;
 }
@@ -155,15 +164,7 @@
 .position-desc pre {
   padding-left: 10px;
   margin-left: 0;
-}
-.bottom-btn {
-  position: fixed;
-  height: 1.06666667rem;
-  background-color: #12d5b5;
-  left: 0;
-  right: 0;
-  width: 100%;
-  bottom: 0;
+  padding-bottom: 20px;
 }
 .bg-w {
   background: #fff;
@@ -226,5 +227,5 @@ body {
 button {
   outline-width: 0;
   border-width: 0;
-  color: #fff;
+  color: black;
 }

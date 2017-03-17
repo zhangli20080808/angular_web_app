@@ -28,6 +28,71 @@ $urlRouterProvider.otherwise('main');
 
 'use strict';
 
+angular.module('app').controller('companyCtrl',['$http','$state','$scope',function($http,$state,$scope){
+
+  //这个地方一定要注意  注入顺序  真心坑
+  $http.get('data/company.json?id='+$state.params.id).success(function(resp){
+    $scope.company = resp;
+    // console.log(resp);
+    // $scope.$broadcast('abc',{id:1});
+  })
+  // $scope.$on('nd',function(event,data){
+  //   console.log(event,data);
+  // })
+
+}]);
+
+'use strict';
+
+angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$scope){
+
+
+  $http.get('/data/positionList.json').success(function(resp){
+      // console.log(resp);
+      $scope.list = resp;
+      console.log(resp);
+  })
+}]);
+
+'use strict';
+
+angular.module('app').controller('positionCtrl',['$scope','$http','$state','$q',function($scope,$http,$state,$q){
+
+  $scope.isLogin =false;
+  function getPosition(){
+
+    //我们声明一个延迟加载对象
+    var def = $q.defer();
+
+    $http.get('data/position.json?id='+$state.params.id).success(function(resp){
+      $scope.position = resp;
+      def.resolve(resp);
+    }).error(function(err){
+      def.reject(err);
+    });
+    return def.promise;
+  }
+
+  // 当返回一个promise函数的时候有一个then函数  then代表这个异步请求结束之后所执行的一个函数
+  // then 里面有两个函数 分别对应我们前面的  参数就是调用resolve的时候传过来的参数
+
+  function getCompany(id){
+    $http.get('data/position.json?id='+id).success(function(resp){
+      $scope.company = resp;
+    })
+  }
+
+  getPosition().then(function(obj){
+    // console.log(obj);
+    getCompany(obj.companyId);
+  })
+
+
+
+}]);
+
+'use strict';
+
 angular.module('app').directive('appCompany',[function(){
   return {
     // 我们使用属性的形式
@@ -80,11 +145,18 @@ angular.module('app').directive('appHeadBar',[function(){
       // text: '='
       text: '@'
     },
-    link: function(scope){
+    link: function($scope){
       // 我们绑定了一个回退事件back 这里的scope和外面的¥scope基本是一样的 行参 我不加$也行
-      scope.back = function() {
+      $scope.back = function() {
           window.history.back();
         };
+        // 接受
+        // $scope.$on('abc',function(event,data){
+        //   console.log(event,data);
+        // });
+        // 向上传播
+        // $scope.$emit('nd',{name:2});
+
     }
     // 我们为指令定义一些内在逻辑的时候，就可以用这个link
   };
@@ -155,66 +227,4 @@ angular.module('app').directive('appPositionList',[function(){
       data: '='
     }
   }
-}]);
-
-'use strict';
-
-angular.module('app').controller('companyCtrl',['$http','$state','$scope',function($http,$state,$scope){
-
-  //这个地方一定要注意  注入顺序  真心坑
-  $http.get('data/company.json?id='+$state.params.id).success(function(resp){
-    $scope.company = resp;
-    // console.log(resp);
-  })
-
-  $scope.msg =1;
-}]);
-
-'use strict';
-
-angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$scope){
-
-
-  $http.get('/data/positionList.json').success(function(resp){
-      // console.log(resp);
-      $scope.list = resp;
-      console.log(resp);
-  })
-}]);
-
-'use strict';
-
-angular.module('app').controller('positionCtrl',['$scope','$http','$state','$q',function($scope,$http,$state,$q){
-
-  $scope.isLogin =false;
-  function getPosition(){
-
-    //我们声明一个延迟加载对象
-    var def = $q.defer();
-
-    $http.get('data/position.json?id='+$state.params.id).success(function(resp){
-      $scope.position = resp;
-      def.resolve(resp);
-    }).error(function(err){
-      def.reject(err);
-    });
-    return def.promise;
-  }
-
-  // 当返回一个promise函数的时候有一个then函数  then代表这个异步请求结束之后所执行的一个函数
-  // then 里面有两个函数 分别对应我们前面的  参数就是调用resolve的时候传过来的参数
-
-  function getCompany(id){
-    $http.get('data/position.json?id='+id).success(function(resp){
-      $scope.company = resp;
-    })
-  }
-
-  getPosition().then(function(obj){
-    // console.log(obj);
-    getCompany(obj.companyId);
-  })
-
-
-
 }]);

@@ -6,7 +6,10 @@ angular.module('app').controller('companyCtrl',['$http','$state','$scope',functi
   $http.get('data/company.json?id='+$state.params.id).success(function(resp){
     $scope.company = resp;
     // console.log(resp);
+    // $scope.$broadcast('abc',{id:1});
   })
+  // $scope.$on('nd',function(event,data){
+  //   console.log(event,data);
+  // })
 
-  $scope.msg =1;
 }]);

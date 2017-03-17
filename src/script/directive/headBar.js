@@ -12,11 +12,18 @@ angular.module('app').directive('appHeadBar',[function(){
       // text: '='
       text: '@'
     },
-    link: function(scope){
+    link: function($scope){
       // 我们绑定了一个回退事件back 这里的scope和外面的¥scope基本是一样的 行参 我不加$也行
-      scope.back = function() {
+      $scope.back = function() {
           window.history.back();
         };
+        // 接受
+        // $scope.$on('abc',function(event,data){
+        //   console.log(event,data);
+        // });
+        // 向上传播
+        // $scope.$emit('nd',{name:2});
+
     }
     // 我们为指令定义一些内在逻辑的时候，就可以用这个link
   };
