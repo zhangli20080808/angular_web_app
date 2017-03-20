@@ -4,34 +4,6 @@ angular.module('app', ['ui.router','ngCookies']);
 
 'use strict';
 
-// 这个地方我们对两个provider进行显示配置
-angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-  // 前者配置我们的路由    主页面id，唯一标示一个路径
-  $stateProvider.state('main', {
-    url: '/main',
-    templateUrl: 'view/main.html',
-    controller: 'mainCtrl'
-  }).state('position',{
-    // 路由－－我们根据不同的职位去进行展示,来知道我们当前展示的式那个职位信息
-     url: '/position/:id',
-     templateUrl: 'view/position.html',
-     controller: 'positionCtrl'
-  }).state('company',{
-    url: '/company/:id',
-    templateUrl: 'view/company.html',
-    controller: 'companyCtrl'
-  }).state('search',{
-    url: '/search',
-    templateUrl: 'view/search.html',
-    controller: 'searchCtrl'
-  });
-  //重定向
-$urlRouterProvider.otherwise('main');
-
-}])
-
-'use strict';
-
 angular.module('app').controller('companyCtrl',['$http','$state','$scope',function($http,$state,$scope){
 
   //这个地方一定要注意  注入顺序  真心坑
@@ -103,11 +75,14 @@ angular.module('app').controller('positionCtrl',['$scope','$http','$state','$q',
 
 'use strict';
 
-angular.module('app').controller('searchCtrl',['$scope',function($scope){
+angular.module('app').controller('searchCtrl',['$scope','$http',function($scope,$http){
 
-  $scope.msg =1;
+  $http.get('data/positionList.json').success(function(resp){
+    $scope.positionList = resp;
+  })
 
 }]);
+ 
 
 'use strict';
 
@@ -246,6 +221,58 @@ angular.module('app').directive('appPositionList',[function(){
     }
   }
 }]);
+
+'use strict';
+
+// 切记  我们这里的指令名一定要大写
+angular.module('app').directive('appSheet',[function(){
+  return {
+    restrict: 'A',
+    // 这里要注意我们的指令只能有一个根元素，不然会报错
+    replace:  true,
+    templateUrl:  'view/template/sheet.html'
+  }
+}])
+
+'use strict';
+angular.module('app').directive('appTab', [function(){
+  return {
+    // 我们使用属性的形式
+    restrict: 'A',
+    // 进行替换dom元素 如果我们希望将这里的父元素div替换掉  true
+    replace:  true,
+    // 模版位置
+    templateUrl: 'view/template/tab.html'
+  }
+}]);
+
+'use strict';
+
+// 这个地方我们对两个provider进行显示配置
+angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+  // 前者配置我们的路由    主页面id，唯一标示一个路径
+  $stateProvider.state('main', {
+    url: '/main',
+    templateUrl: 'view/main.html',
+    controller: 'mainCtrl'
+  }).state('position',{
+    // 路由－－我们根据不同的职位去进行展示,来知道我们当前展示的式那个职位信息
+     url: '/position/:id',
+     templateUrl: 'view/position.html',
+     controller: 'positionCtrl'
+  }).state('company',{
+    url: '/company/:id',
+    templateUrl: 'view/company.html',
+    controller: 'companyCtrl'
+  }).state('search',{
+    url: '/search',
+    templateUrl: 'view/search.html',
+    controller: 'searchCtrl'
+  });
+  //重定向
+$urlRouterProvider.otherwise('main');
+
+}])
 
 'use strict';
 // angular.module('app').service('cache',['$cookies',function($cookies){

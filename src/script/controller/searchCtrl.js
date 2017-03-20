@@ -1,7 +1,10 @@
 'use strict';
 
-angular.module('app').controller('searchCtrl',['$scope',function($scope){
+angular.module('app').controller('searchCtrl',['$scope','$http',function($scope,$http){
 
-  $scope.msg =1;
+  $http.get('data/positionList.json').success(function(resp){
+    $scope.positionList = resp;
+  })
 
 }]);
+ 

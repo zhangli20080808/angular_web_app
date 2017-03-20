@@ -141,6 +141,27 @@
 .company-info p {
   margin-top: 0;
 }
+.tab {
+  background-color: #eee;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  padding: 0;
+  margin: 0;
+  margin-top: 1.06666667rem;
+  font-size: 0;
+}
+.tab li {
+  font-size: 0.37333333rem;
+  width: 33.33%;
+  height: 1.06666667rem;
+  line-height: 1.06666667rem;
+  border-bottom: 2px solid #f7f7f7;
+}
+.tab li.active {
+  border-bottom: 2px solid #12d5b5;
+}
 .bottom-btn {
   position: fixed;
   height: 1.06666667rem;
@@ -171,9 +192,9 @@
   position: fixed;
   left: 0;
   right: 0;
+  top: 0;
   height: 1.06666667rem;
   line-height: 1.06666667rem;
-  z-index: 1000;
 }
 .search-bar img {
   transform: scale(0.6);
@@ -204,6 +225,46 @@
   background-position: 0 4px;
   padding-left: 18px;
   margin-right: 19px;
+}
+.sheet {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+.sheet .wrap {
+  color: #1063e5;
+  position: fixed;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  z-index: 1001;
+}
+.sheet .wrap li,
+.sheet .wrap button {
+  height: 1.33333333rem;
+  line-height: 1.33333333rem;
+  font-size: 0.42666667rem;
+  width: 100%;
+  background-color: #f1f2f3;
+}
+.sheet .wrap button {
+  margin-top: 8px;
+  border-radius: 5px;
+}
+.sheet .wrap ul {
+  margin: 0;
+  padding: 0;
+  overflow: scroll;
+  max-height: 500px;
+  border-radius: 5px;
+}
+.sheet .wrap ul li {
+  list-style: none;
+  border-bottom: 1px solid #d4d4d4;
 }
 .bg-w {
   background: #fff;
