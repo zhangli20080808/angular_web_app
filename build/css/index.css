@@ -266,6 +266,9 @@
   list-style: none;
   border-bottom: 1px solid #d4d4d4;
 }
+.search-list {
+  margin-top: 2.13333333rem;
+}
 .bg-w {
   background: #fff;
 }

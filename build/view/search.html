@@ -1,11 +1,11 @@
 <div class="search-bar ta-c">
-  <button>取消</button>
-  <input type="text" placeholder="请输入搜索职位/公司/城市">
+  <button ng-click="name='';search();">取消</button>
+  <input type="text" ng-model="name" placeholder="请输入搜索职位/公司/城市">
 
-  <button class="ta-l">
+  <button ng-click="search();" class="ta-l">
     搜索</button>
 </div>
- <div app-tab></div>
- <div app-position-list data='positionList'></div>
- <div app-sheet></div>
+ <div app-tab list='tabList' tab-click='tClick(id,name)'></div>
+ <div class= "search-list" app-position-list data='positionList'></div>
+ <div app-sheet list='sheet.list' visible='sheet.visible'></div>
  <div app-foot></div>

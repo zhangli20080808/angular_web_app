@@ -75,14 +75,84 @@ angular.module('app').controller('positionCtrl',['$scope','$http','$state','$q',
 
 'use strict';
 
-angular.module('app').controller('searchCtrl',['$scope','$http',function($scope,$http){
+angular.module('app').controller('searchCtrl',['$scope','$http','dict', function($scope,$http,dict){
 
-  $http.get('data/positionList.json').success(function(resp){
-    $scope.positionList = resp;
-  })
+  $scope.name = '';
+
+  $scope.search = function(){
+    $http.get('data/positionList.json?name='+$scope.name).success(function(resp){
+      $scope.positionList = resp;
+    })
+  }
+  $scope.search();
+  $scope.sheet ={};
+  $scope.tabList = [{
+    id:'city',
+    name:'城市'
+  },{
+    id:'salary',
+    name:'薪资',
+  },{
+    id:'scale',
+    name:'公司规模'
+  }];
+  $scope.tClick = function(id,name){
+    // console.log(id,name); salary 薪资
+    $scope.sheet.list = dict[id];
+    $scope.sheet.visible = true;
+    console.log(dict);
+  };
+
 
 }]);
- 
+
+'use strict';
+
+
+angular.module('app').value('dict',{}).run(['$http','dict',function($http,dict){
+
+    $http.get('data/city.json').success(function(resp){
+      dict.city  = resp;
+    });
+    $http.get('data/salary.json').success(function(resp){
+      dict.salary  = resp;
+    });
+    $http.get('data/scale.json').success(function(resp){
+      dict.scale  = resp;
+    });
+
+
+
+}])
+//  初始化，给他一个空的json对象
+
+'use strict';
+
+// 这个地方我们对两个provider进行显示配置
+angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+  // 前者配置我们的路由    主页面id，唯一标示一个路径
+  $stateProvider.state('main', {
+    url: '/main',
+    templateUrl: 'view/main.html',
+    controller: 'mainCtrl'
+  }).state('position',{
+    // 路由－－我们根据不同的职位去进行展示,来知道我们当前展示的式那个职位信息
+     url: '/position/:id',
+     templateUrl: 'view/position.html',
+     controller: 'positionCtrl'
+  }).state('company',{
+    url: '/company/:id',
+    templateUrl: 'view/company.html',
+    controller: 'companyCtrl'
+  }).state('search',{
+    url: '/search',
+    templateUrl: 'view/search.html',
+    controller: 'searchCtrl'
+  });
+  //重定向
+$urlRouterProvider.otherwise('main');
+
+}])
 
 'use strict';
 
@@ -230,7 +300,12 @@ angular.module('app').directive('appSheet',[function(){
     restrict: 'A',
     // 这里要注意我们的指令只能有一个根元素，不然会报错
     replace:  true,
-    templateUrl:  'view/template/sheet.html'
+    templateUrl:  'view/template/sheet.html',
+    scope:{
+      list:'=',
+      // 我们这里的visible  要暴漏出去
+      visible:'='
+    }
   }
 }])
 
@@ -242,37 +317,20 @@ angular.module('app').directive('appTab', [function(){
     // 进行替换dom元素 如果我们希望将这里的父元素div替换掉  true
     replace:  true,
     // 模版位置
-    templateUrl: 'view/template/tab.html'
+    templateUrl: 'view/template/tab.html',
+    scope:{
+        list: '=',
+        tabClick: '&'
+    },
+    link:function($scope){
+      $scope.click = function(tab){
+        $scope.selectId = tab.id;
+        $scope.tabClick(tab);
+
+      }
+    }
   }
 }]);
-
-'use strict';
-
-// 这个地方我们对两个provider进行显示配置
-angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-  // 前者配置我们的路由    主页面id，唯一标示一个路径
-  $stateProvider.state('main', {
-    url: '/main',
-    templateUrl: 'view/main.html',
-    controller: 'mainCtrl'
-  }).state('position',{
-    // 路由－－我们根据不同的职位去进行展示,来知道我们当前展示的式那个职位信息
-     url: '/position/:id',
-     templateUrl: 'view/position.html',
-     controller: 'positionCtrl'
-  }).state('company',{
-    url: '/company/:id',
-    templateUrl: 'view/company.html',
-    controller: 'companyCtrl'
-  }).state('search',{
-    url: '/search',
-    templateUrl: 'view/search.html',
-    controller: 'searchCtrl'
-  });
-  //重定向
-$urlRouterProvider.otherwise('main');
-
-}])
 
 'use strict';
 // angular.module('app').service('cache',['$cookies',function($cookies){

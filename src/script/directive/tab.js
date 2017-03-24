@@ -6,6 +6,17 @@ angular.module('app').directive('appTab', [function(){
     // 进行替换dom元素 如果我们希望将这里的父元素div替换掉  true
     replace:  true,
     // 模版位置
-    templateUrl: 'view/template/tab.html'
+    templateUrl: 'view/template/tab.html',
+    scope:{
+        list: '=',
+        tabClick: '&'
+    },
+    link:function($scope){
+      $scope.click = function(tab){
+        $scope.selectId = tab.id;
+        $scope.tabClick(tab);
+
+      }
+    }
   }
 }]);

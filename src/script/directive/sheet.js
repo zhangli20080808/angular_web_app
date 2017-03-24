@@ -6,6 +6,11 @@ angular.module('app').directive('appSheet',[function(){
     restrict: 'A',
     // 这里要注意我们的指令只能有一个根元素，不然会报错
     replace:  true,
-    templateUrl:  'view/template/sheet.html'
+    templateUrl:  'view/template/sheet.html',
+    scope:{
+      list:'=',
+      // 我们这里的visible  要暴漏出去
+      visible:'='
+    }
   }
 }])
