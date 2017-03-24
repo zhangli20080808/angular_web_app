@@ -4,6 +4,54 @@ angular.module('app', ['ui.router','ngCookies']);
 
 'use strict';
 
+
+angular.module('app').value('dict',{}).run(['$http','dict',function($http,dict){
+
+    $http.get('data/city.json').success(function(resp){
+      dict.city  = resp;
+    });
+    $http.get('data/salary.json').success(function(resp){
+      dict.salary  = resp;
+    });
+    $http.get('data/scale.json').success(function(resp){
+      dict.scale  = resp;
+    });
+
+
+
+}])
+//  初始化，给他一个空的json对象
+
+'use strict';
+
+// 这个地方我们对两个provider进行显示配置
+angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+  // 前者配置我们的路由    主页面id，唯一标示一个路径
+  $stateProvider.state('main', {
+    url: '/main',
+    templateUrl: 'view/main.html',
+    controller: 'mainCtrl'
+  }).state('position',{
+    // 路由－－我们根据不同的职位去进行展示,来知道我们当前展示的式那个职位信息
+     url: '/position/:id',
+     templateUrl: 'view/position.html',
+     controller: 'positionCtrl'
+  }).state('company',{
+    url: '/company/:id',
+    templateUrl: 'view/company.html',
+    controller: 'companyCtrl'
+  }).state('search',{
+    url: '/search',
+    templateUrl: 'view/search.html',
+    controller: 'searchCtrl'
+  });
+  //重定向
+$urlRouterProvider.otherwise('main');
+
+}])
+
+'use strict';
+
 angular.module('app').controller('companyCtrl',['$http','$state','$scope',function($http,$state,$scope){
 
   //这个地方一定要注意  注入顺序  真心坑
@@ -96,63 +144,50 @@ angular.module('app').controller('searchCtrl',['$scope','$http','dict', function
     id:'scale',
     name:'公司规模'
   }];
+
+  var tabId = '';
+  $scope.filterObj ={};
   $scope.tClick = function(id,name){
     // console.log(id,name); salary 薪资
+    tabId = id;
     $scope.sheet.list = dict[id];
     $scope.sheet.visible = true;
     console.log(dict);
   };
+  $scope.sClick = function(id,name){
+    // console.log(id,name);
+    // 我们先判断下有没有id  下拉列表有选择 我们这个地方是想把name 赋值给页签 但不知道是给哪一个页签
+    // 我们生命一个变量   当页签被点击的时候  我们改变他
+    if(id){
+        angular.forEach($scope.tabList,function(item){
+          if(item.id === tabId){
+            item.name = name;
+          }
+        });
+        $scope.filterObj[tabId+'Id'] = id;
+    }else{
+      // 不需要 要删掉
+      delete $scope.filterObj[tabId+'Id'];
+      angular.forEach($scope.tabList,function(item){
+        if(item.id === tabId){
+          switch(item.id){
+            case 'city':
+            item.name = '城市';
+            break;
+            case 'salary':
+            item.name = '薪资';
+            break;
+            case 'scale':
+            item.name = '公司规模';
+            break;
+          }
+        }
+      })
+    }
+  }
 
 
 }]);
-
-'use strict';
-
-
-angular.module('app').value('dict',{}).run(['$http','dict',function($http,dict){
-
-    $http.get('data/city.json').success(function(resp){
-      dict.city  = resp;
-    });
-    $http.get('data/salary.json').success(function(resp){
-      dict.salary  = resp;
-    });
-    $http.get('data/scale.json').success(function(resp){
-      dict.scale  = resp;
-    });
-
-
-
-}])
-//  初始化，给他一个空的json对象
-
-'use strict';
-
-// 这个地方我们对两个provider进行显示配置
-angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-  // 前者配置我们的路由    主页面id，唯一标示一个路径
-  $stateProvider.state('main', {
-    url: '/main',
-    templateUrl: 'view/main.html',
-    controller: 'mainCtrl'
-  }).state('position',{
-    // 路由－－我们根据不同的职位去进行展示,来知道我们当前展示的式那个职位信息
-     url: '/position/:id',
-     templateUrl: 'view/position.html',
-     controller: 'positionCtrl'
-  }).state('company',{
-    url: '/company/:id',
-    templateUrl: 'view/company.html',
-    controller: 'companyCtrl'
-  }).state('search',{
-    url: '/search',
-    templateUrl: 'view/search.html',
-    controller: 'searchCtrl'
-  });
-  //重定向
-$urlRouterProvider.otherwise('main');
-
-}])
 
 'use strict';
 
@@ -287,7 +322,8 @@ angular.module('app').directive('appPositionList',[function(){
     templateUrl:  'view/template/positionList.html',
     scope: {
       //  我们暴露一个data的接口 此时外面继续用list就 请求不到了
-      data: '='
+      data: '=',
+      filterObj:'='
     }
   }
 }]);
@@ -304,7 +340,8 @@ angular.module('app').directive('appSheet',[function(){
     scope:{
       list:'=',
       // 我们这里的visible  要暴漏出去
-      visible:'='
+      visible:'=',
+      select:'&'
     }
   }
 }])
@@ -331,6 +368,34 @@ angular.module('app').directive('appTab', [function(){
     }
   }
 }]);
+
+'use strict';
+
+angular.module('app').filter('filterByObj',[function(){
+  //返回值有点特殊   接受两个参数  数组  过滤对象
+
+  return function (list,obj){
+
+    var result = [];
+    angular.forEach(list,function(item){
+      // 首先我们默认他是相等的
+      var isEqual = true;
+      for(var e in obj){
+        if(item[e] !== obj[e]){
+          isEqual = false;
+        }
+        // 注意这个循环没办法停止 不像for循环可以break
+      }
+      if(isEqual){
+        result.push(item);
+      }
+    });
+    return result;
+
+  }
+
+
+}])
 
 'use strict';
 // angular.module('app').service('cache',['$cookies',function($cookies){

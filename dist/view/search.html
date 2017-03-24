@@ -6,6 +6,6 @@
     搜索</button>
 </div>
  <div app-tab list='tabList' tab-click='tClick(id,name)'></div>
- <div class= "search-list" app-position-list data='positionList'></div>
- <div app-sheet list='sheet.list' visible='sheet.visible'></div>
+ <div class= "search-list" app-position-list data='positionList' filter-obj = 'filterObj'></div>
+ <div app-sheet list='sheet.list' visible='sheet.visible' select='sClick(id,name)'></div>
  <div app-foot></div>

@@ -10,7 +10,8 @@ angular.module('app').directive('appSheet',[function(){
     scope:{
       list:'=',
       // 我们这里的visible  要暴漏出去
-      visible:'='
+      visible:'=',
+      select:'&'
     }
   }
 }])

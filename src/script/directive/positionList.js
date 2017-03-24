@@ -9,7 +9,8 @@ angular.module('app').directive('appPositionList',[function(){
     templateUrl:  'view/template/positionList.html',
     scope: {
       //  我们暴露一个data的接口 此时外面继续用list就 请求不到了
-      data: '='
+      data: '=',
+      filterObj:'='
     }
   }
 }]);

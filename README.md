@@ -109,7 +109,11 @@ position.html    路由－－我们根据不同的职位去进行展示
   config／dict.js    .value 和service有点像，但他只有值，没有逻辑
   我们使用的时候，采用注入的方式就行
   点击完成要出现一个可选的列表   sheet修改
-  我们可能还要确定他点击的是那个选项
+  我们可能还要确定他点击的是那个选项 ng-click='select(item)' 然后把select做成一个回调函数
+  通知我们的父控制器  这个元素被选择了
+  根据选择列表 对职位进行一个过滤  filter  positionlist我们过滤了一个对象  相应爆喽一个接口 传进去
+  接着 给filterObj赋值
+
 
 
 
