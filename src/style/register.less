@@ -21,7 +21,7 @@
         &:first-child{
           border-bottom: 1px solid @defaultColor;
         }
-        span{
+        span.icon{
           background-repeat: no-repeat;
           background-position: 20px 10px;
           background-color: @accountColor;
@@ -34,21 +34,35 @@
         .lock{
           background-image: url(../image/lock.png);
         }
-      }
-    input{
-      border-width: 0;
-      outline-width: 0;
-      background-color: @formBgColor;
-      height: 100%;
-      box-sizing: border-box;
-      .w(245);
-      .fs(14);
-      .pl(30);
-      &::-webkit-input-placeholder{
-        color: @defaultColor;
-      };
 
-    }
+        input{
+          border-width: 0;
+          outline-width: 0;
+          background-color: @formBgColor;
+          height: 100%;
+          box-sizing: border-box;
+          color: @defaultColor;
+          .w(245);
+          .fs(14);
+          .pl(30);
+          &::-webkit-input-placeholder{
+            color: @defaultColor;
+          }
+          &.ng-invalid{
+            &+span{
+            position: absolute;
+             color: @dangerColor;
+             right: 0;
+             height: 100%;
+             text-align: right;
+             font-size: 12px;
+             p {
+               margin: 0;
+               }
+            }
+          }
+        };
+      };
     .message-wrap{
       .mt(40);
       .w(300);
@@ -75,7 +89,12 @@
         border: 1px solid @headBgColor;
         padding: 5px;
         .mt(10);
+        &.disabled{
+          color: @lineColor;
+          border: 1px solid @lineColor;
+        }
       }
+
     }
 
     button{

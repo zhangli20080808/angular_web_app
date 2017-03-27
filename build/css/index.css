@@ -362,7 +362,7 @@
 .register form .form-line:first-child {
   border-bottom: 1px solid #fff;
 }
-.register form .form-line span {
+.register form .form-line span.icon {
   background-repeat: no-repeat;
   background-position: 20px 10px;
   background-color: rgba(0, 0, 0, 0.4);
@@ -375,18 +375,30 @@
 .register form .form-line .lock {
   background-image: url(../image/lock.png);
 }
-.register form input {
+.register form .form-line input {
   border-width: 0;
   outline-width: 0;
   background-color: rgba(0, 0, 0, 0.2);
   height: 100%;
   box-sizing: border-box;
+  color: #fff;
   width: 6.53333333rem;
   font-size: 0.37333333rem;
   padding-left: 0.8rem;
 }
-.register form input::-webkit-input-placeholder {
+.register form .form-line input::-webkit-input-placeholder {
   color: #fff;
+}
+.register form .form-line input.ng-invalid + span {
+  position: absolute;
+  color: red;
+  right: 0;
+  height: 100%;
+  text-align: right;
+  font-size: 12px;
+}
+.register form .form-line input.ng-invalid + span p {
+  margin: 0;
 }
 .register form .message-wrap {
   margin-top: 1.06666667rem;
@@ -414,6 +426,10 @@
   border: 1px solid #12d5b5;
   padding: 5px;
   margin-top: 0.26666667rem;
+}
+.register form .message-wrap .message.disabled {
+  color: #d4d4d4;
+  border: 1px solid #d4d4d4;
 }
 .register form button {
   width: 8rem;

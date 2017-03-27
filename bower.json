@@ -21,9 +21,9 @@
   "dependencies": {
     "angular": "1.5.8",
     "angular-ui-router": "ui-router#0.3.1",
-    "angular-cookies": "^1.6.3",
-    "angular-validation": "1.4.2",
-    "angular-animate": "1.5.8"
+    "angular-validation": "^1.4.3",
+    "angular-animate": "1.5.8",
+    "angular-cookies": "1.5.8"
   },
   "devDependencies": {}
 }

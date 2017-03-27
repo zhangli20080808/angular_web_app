@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app', ['ui.router','ngCookies']);
+angular.module('app', ['ui.router','ngCookies','validation']);
 
 'use strict';
 
@@ -68,6 +68,36 @@ angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($
   //重定向
 $urlRouterProvider.otherwise('main');
 
+}])
+
+'use strict';
+angular.module('app').config(['$validationProvider',function($validationProvider){
+
+  // 首先需要一个表达式来校验我们的表单元素的值是不是符合要求
+  var expression = {
+    // 每一个属性代表一个校验规则,以1开头，后面跟10位数字
+    phone :/^1[\d]{10}/,
+    // 密码至少为6位
+    password:function(value){
+      var str = value + '';
+      return str.length >5;
+    }
+  };
+  //还需一个错误提示
+  var defaultMsg = {
+    // 每一个规则对应两条提示
+    phone:{
+      success:"",
+      error:"必须是11位手机号"
+    },
+    password:{
+      success:'',
+      error:'长度至少为6位'
+    }
+  }
+// 接下来配置
+ $validationProvider.setExpression(expression).setDefaultMsg(defaultMsg) ;
+ //如何应用呢，取页面
 }])
 
 'use strict';
@@ -184,9 +214,32 @@ angular.module('app').controller('postCtrl',['$http','$scope',function($http,$sc
 
 'use strict';
 
-angular.module('app').controller('registerCtrl',['$http','$scope',function($http,$scope){
+angular.module('app').controller('registerCtrl',['$interval','$http','$scope',function($interval,$http,$scope){
 
+  $scope.submit = function(){
+    console.log($scope.user);
+  }
 
+  var count = 60;
+
+  $scope.send =function(){
+    $http.get('data/code.json').success(function(resp){
+        if(1===resp.state){
+          count = 60;
+            $scope.time = '60';
+            var interval = $interval(function () {
+              // 如果小于0，这个方法记得要取消
+              if(count<=0){
+                $interval.cancel(interval);
+                $scope.time = '';
+              }else{
+                count--;
+                $scope.time = count +'s';
+              }
+            }, 1000);
+        }
+    })
+  }
 
 }]);
 
