@@ -20,6 +20,26 @@ angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($
     url: '/search',
     templateUrl: 'view/search.html',
     controller: 'searchCtrl'
+  }).state('login',{
+    url: '/login',
+    templateUrl: 'view/login.html',
+    controller: 'loginCtrl'
+  }).state('register',{
+    url: '/register',
+    templateUrl: 'view/register.html',
+    controller: 'registerCtrl'
+  }).state('me',{
+    url: '/me',
+    templateUrl: 'view/me.html',
+    controller: 'meCtrl'
+  }).state('post',{
+    url: '/post',
+    templateUrl: 'view/post.html',
+    controller: 'postCtrl'
+  }).state('favourite',{
+    url: '/favourite',
+    templateUrl: 'view/favourite.html',
+    controller: 'favouriteCtrl'
   });
   //重定向
 $urlRouterProvider.otherwise('main');
